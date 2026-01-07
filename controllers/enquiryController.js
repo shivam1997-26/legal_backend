@@ -53,3 +53,30 @@ exports.updateStatus = async (req, res) => {
 
   res.json({ success: true, message: "Status updated" });
 };
+
+exports.getAllEnquiryData = async (req, res) => {
+  try {
+    const enquiries = await Enquiry.find({})  // 🔥 saari enquiries
+
+    if (!enquiries || enquiries.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No enquiries found"
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      total: enquiries.length,
+      data: enquiries
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error"
+    });
+  }
+};
+
